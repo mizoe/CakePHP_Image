@@ -1,17 +1,6 @@
 <div class="images form">
-<?php echo $this->Form->create('Image'); ?>
-	<fieldset>
-		<legend><?php echo __('Add Image'); ?></legend>
-	<?php
-		echo $this->Form->input('file');
-	?>
-	</fieldset>
-<?php echo $this->Form->end(__('Submit')); ?>
-</div>
-<div class="actions">
-	<h3><?php echo __('Actions'); ?></h3>
-	<ul>
-
-		<li><?php echo $this->Html->link(__('List Images'), array('action' => 'index')); ?></li>
-	</ul>
+<form action="/CakePHP_Image/images/add" enctype="multipart/form-data" method="post">
+     <input name="foo_file" type="file" value="" />
+     <input type="submit" value="送信" />
+</form>
 </div>

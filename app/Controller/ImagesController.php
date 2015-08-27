@@ -49,6 +49,20 @@ class ImagesController extends AppController {
 	public function add() {
 		if ($this->request->is('post')) {
 			$this->Image->create();
+			
+		   // http://turkey246.hatenablog.com/entry/2015/03/11/104729 から借用
+	       //パラメータよりイメージ情報を取得
+	        $image = $this->params['form']['foo_file'];
+	        
+	        //イメージ保存先パス
+	        $img_save_path = IMAGES.DS.'save_files' ;
+	        $new_path = $img_save_path . DS . $file_id . DS . $image['name'];
+	        $url = "/CakePHP_Image/img/save_files/" . $image['name'];
+	        
+	        //イメージの保存処理
+	        move_uploaded_file($image['tmp_name'], $new_path);
+			$this->request->data['file'] = $url;
+
 			if ($this->Image->save($this->request->data)) {
 				$this->Session->setFlash(__('The image has been saved.'));
 				return $this->redirect(array('action' => 'index'));

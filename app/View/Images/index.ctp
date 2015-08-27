@@ -14,7 +14,8 @@
 	<?php foreach ($images as $image): ?>
 	<tr>
 		<td><?php echo h($image['Image']['id']); ?>&nbsp;</td>
-		<td><?php echo h($image['Image']['file']); ?>&nbsp;</td>
+		<td><img src="<?php echo h($image['Image']['file']); ?>">
+		<?php echo h($image['Image']['file']); ?>&nbsp;</td>
 		<td><?php echo h($image['Image']['created']); ?>&nbsp;</td>
 		<td><?php echo h($image['Image']['modified']); ?>&nbsp;</td>
 		<td class="actions">
