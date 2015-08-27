@@ -50,25 +50,35 @@ class ImagesController extends AppController {
 		if ($this->request->is('post')) {
 			$this->Image->create();
 			
-		   // http://turkey246.hatenablog.com/entry/2015/03/11/104729 から借用
-	       //パラメータよりイメージ情報を取得
+		    // http://turkey246.hatenablog.com/entry/2015/03/11/104729 から借用
+	        //パラメータよりイメージ情報を取得
 	        $image = $this->params['form']['foo_file'];
 	        
+	        // 最新ID
+	        $last_image = $this->Image->find('first',array(
+				'order' => array('id' => 'desc')
+			));
+			$new_id = $last_image['Image']['id'] + 1;
+
 	        //イメージ保存先パス
-	        $img_save_path = IMAGES.DS.'save_files' ;
-	        $new_path = $img_save_path . DS . $file_id . DS . $image['name'];
-	        $url = "/CakePHP_Image/img/save_files/" . $image['name'];
+	        $img_save_path = IMAGES . DS . 'save_files' ;
+	        $new_dir = $img_save_path . DS . $new_id;
+	        $new_file = $new_dir . DS . $image['name'];
+	        mkdir($new_dir);
+	        $url = "/CakePHP_Image/img/save_files/" . $new_id . "/" . $image['name'];
 	        
 	        //イメージの保存処理
-	        move_uploaded_file($image['tmp_name'], $new_path);
+	        move_uploaded_file($image['tmp_name'], $new_file);
 			$this->request->data['file'] = $url;
 
 			if ($this->Image->save($this->request->data)) {
+				echo('<img src="'.$url . '">');
 				$this->Session->setFlash(__('The image has been saved.'));
-				return $this->redirect(array('action' => 'index'));
+				//return $this->redirect(array('action' => 'index'));
 			} else {
 				$this->Session->setFlash(__('The image could not be saved. Please, try again.'));
 			}
+
 		}
 	}
 
